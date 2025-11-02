@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface MatchRepository extends JpaRepository<Match, Long> {
 
     List<Match> findByUserId(Long userId);
-    List<Match> findByUserIdAndStatusId(Long userId, Long statusId);
+    List<Match> findByUserIdAndStatus(Long userId, String status);
 
     
 }
