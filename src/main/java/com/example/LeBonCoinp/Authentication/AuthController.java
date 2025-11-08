@@ -3,11 +3,11 @@ import com.example.LeBonCoinp.Users.User;
 import com.example.LeBonCoinp.Users.UserDTO.UserResponseDTO;
 import com.example.LeBonCoinp.Users.UserRepository;
 import com.example.LeBonCoinp.Security.JwtService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import static com.example.LeBonCoinp.Authentication.AuthDtos.*;

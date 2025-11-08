@@ -28,7 +28,7 @@ public class ItemController {
    
 @PostMapping("/items")
 public ItemResponse createItem(@RequestBody ItemCreateRequest req) {
-    return itemService.createItem(req, 1L);
+    return itemService.createItem(req, 1L); // temporary hardcoded user ID 
 }
 
 

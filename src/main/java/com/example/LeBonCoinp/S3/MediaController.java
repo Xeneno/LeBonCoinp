@@ -13,15 +13,19 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/uploads")
-@RequiredArgsConstructor
 public class MediaController {
 
+
     private final S3Service s3Service;
+
+  public MediaController(S3Service s3Service) {   
+    this.s3Service = s3Service;
+  }
 
     @PostMapping("/image")
     public ResponseEntity<Map<String, Object>> generatePresignedUrl(
             @RequestParam String fileName,  // we get this from frontend url
-            @RequestParam(defaultValue = "15") int expiryMinutes,
+            @RequestParam(defaultValue = "1") int expiryMinutes,
             @RequestParam long fileSize,
             @AuthenticationPrincipal Principal user  // to make sure only authenticated users can upload
     ) {
