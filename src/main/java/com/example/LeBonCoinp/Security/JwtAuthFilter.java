@@ -36,6 +36,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
       if (jwt.isValid(token)) {
         String email = jwt.subject(token);
         User u = users.findByEmail(email).orElse(null);
+        // SecurityContextHolder.getContext().getAuthentication() == null to avoid overwriting existing auth
         if (u != null && SecurityContextHolder.getContext().getAuthentication() == null) {
           var auth = new UsernamePasswordAuthenticationToken(
               u.getEmail(), null, List.of(new SimpleGrantedAuthority("ROLE_USER")));
