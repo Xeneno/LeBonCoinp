@@ -62,15 +62,35 @@ public class ItemService {
 
         if (!Boolean.TRUE.equals(item.getIsAvailable())) return; 
         item.setIsAvailable(false);
-        // save not required because of @Transactional 
+        
     }
 
+    @Transactional
+    public void deleteItem(Long id, Long currentUserId){
+
+        Item item = itemRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Item not found: " + id));
+        if (!item.getSellerId().equals(currentUserId)) {
+            throw new ForbiddenOperationException("Not allowed to modify this item");
+        }
+
+        itemRepository.delete(item);
+    }
        @Transactional(readOnly = true)
     public Page<ItemResponse> getMyItems(Long sellerId, Pageable pageable) {
-        Pageable effective = pageable.getSort().isUnsorted()
-            ? PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),
-                             Sort.by(Sort.Order.desc("createdAt"), Sort.Order.desc("id")))
-            : pageable;
+        Pageable effective;
+            if (pageable.getSort().isUnsorted()) {
+            effective = PageRequest.of(
+            pageable.getPageNumber(),
+            pageable.getPageSize(),
+            Sort.by(
+                Sort.Order.desc("createdAt"),
+                Sort.Order.desc("id")
+            )
+        );
+    } else {
+        effective = pageable;
+            }   
         return itemRepository.findBySellerId(sellerId, effective).map(mapper::toDto);
     }
 
